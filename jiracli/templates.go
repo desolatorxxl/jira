@@ -429,14 +429,18 @@ fields:
   {{- if .overrides.assignee }}
   assignee:
     emailAddress: {{ .overrides.assignee }}
+    name: {{ .fields.assignee.name}}
   {{- else if .fields.assignee }}
   assignee: {{if .fields.assignee.name}}
     emailAddress: {{ or .fields.assignee.name}}
+    name: {{ .fields.assignee.name}}
   {{- else }}
+    name: {{ .fields.assignee.name}}
     emailAddress: {{.fields.assignee.emailAddress}}{{end}}{{end}}{{end}}
 {{- if .meta.fields.reporter}}
   reporter:
     emailAddress: {{ if .overrides.reporter }}{{ .overrides.reporter }}{{else if .fields.reporter}}{{ .fields.reporter.emailAddress }}{{end}}{{end}}
+    name: {{ .fields.reporter.name }}
 {{- if .meta.fields.customfield_10110}}
   # watchers
   customfield_10110: {{ range .fields.customfield_10110 }}
@@ -485,9 +489,9 @@ fields:
   description: |~
     {{ or .overrides.description "" | indent 4 }}{{if .meta.fields.assignee}}
   assignee:
-    emailAddress: {{ or .overrides.assignee "" }}{{end}}{{if .meta.fields.reporter}}
+    name: {{ or .overrides.assignee "" }}{{end}}{{if .meta.fields.reporter}}
   reporter:
-    emailAddress: {{ or .overrides.reporter .overrides.login }}{{end}}{{if .meta.fields.customfield_10110}}
+    name: {{ or .overrides.reporter .overrides.login }}{{end}}{{if .meta.fields.customfield_10110}}
   # watchers
   customfield_10110: {{ range split "," (or .overrides.watchers "")}}
     - name: {{.}}{{end}}
